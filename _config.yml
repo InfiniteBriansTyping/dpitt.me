@@ -1,0 +1,12 @@
+# Site settings
+title: dpitt.me
+name: dan pittman
+username: danielscottt
+email: danielscottt@gmail.com
+description: "Hi, I'm dan, and this is a place I write about things.  Mostly computers."
+baseurl: ''
+url: "http://dpitt.me"
+
+# Build settings
+markdown: kramdown
+permalink: pretty

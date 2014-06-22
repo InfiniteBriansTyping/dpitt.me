@@ -1,0 +1,44 @@
+---
+layout: default
+---
+
+<div class="home">
+
+  <h1>Posts by Obesssion</h1>
+
+  <h3>Mixins</h3>
+  <div class='cat-descrip'>Mixins, their history and evolution, and how it relates to how we use them today.</div>
+
+  <ul class='posts'>
+    {% for post in site.categories.mixins %}
+      <li>
+        <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+        <a href="{{ post.url }}">{{ post.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+
+  <h3>Distributed Systems</h3>
+
+  <ul class='posts'>
+    {% for post in site.categories.distributed-systems %}
+      <li>
+        <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+        <a href="{{ post.url }}">{{ post.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h3>Javascript</h3>
+
+  <ul class='posts'>
+    {% for post in site.categories.javascript %}
+      <li>
+        <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+        <a href="{{ post.url }}">{{ post.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+</div>
