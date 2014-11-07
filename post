@@ -1,0 +1,56 @@
+#! /bin/bash
+
+
+POST_DATE=$(date +"%Y-%m-%d %T")
+FILE_DATE=$(date +"%Y-%m-%d")
+NAME=$2
+
+usage() {
+  echo "post: Commands for handling posts in Jekyll"
+  echo "Usage ./post [COMMAND]"
+  echo "Commands:"
+  echo "  new		Add a new post into _drafts"
+  echo "  publish	Move a post from _drafts to _posts and update its date"
+  echo "  update-date	Update a post's date"
+}
+
+new() {
+  touch _drafts/$NAME.md
+
+  echo "---"                >  _drafts/$NAME.md
+  echo "layout: post"       >> _drafts/$NAME.md
+  echo "title:  \"\""       >> _drafts/$NAME.md
+  echo "date:   $POST_DATE" >> _drafts/$NAME.md
+  echo "---"                >> _drafts/$NAME.md
+
+  echo _drafts/$NAME.md
+}
+
+publish() {
+  mv _drafts/$NAME.md _posts/
+  replace_date
+}
+
+replace_date() {
+  old_file=$(ls _posts/ | grep $NAME)
+  regex_date=$(date +"%Y-%m-%d")
+  regex_time=$(date +"%T")
+  mv _posts/$old_file _posts/$FILE_DATE-$NAME.md
+  sed -i.old -E s/date:\(\ +\)\[0-9\]{4}-\[0-9\]{2}-\[0-9\]{2}\ \[0-9\]{2}:\[0-9\]{2}:\[0-9\]{2}/date:\\1$regex_date\ $regex_time/ _posts/$FILE_DATE-$NAME.md
+  rm _posts/$FILE_DATE-$NAME.md.old
+}
+
+case $1 in
+  new)
+    new
+    ;;
+  publish)
+    publish
+    ;;
+  update-date)
+    replace_date
+    ;;
+  *)
+    usage
+    ;;
+esac
