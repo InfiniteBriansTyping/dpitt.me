@@ -2,29 +2,20 @@
 layout: default
 ---
 
-<div class="home">
 
-
-  <ul class='posts'>
     {% for post in site.posts limit:5 %}
-      <li>
-        <div class="post">
-          <header class="post-header">
-            <h1>
-              <a class="index-header" href="{{ post.url }}" >{{ post.title }}</a>
-            </h1>
-            {{ post.date | date: "%b %-d, %Y" }}
-          </header>
-          <article class="post-content">
-            {{ post.excerpt }}
-            <p><a href="{{ post.url }}">continue reading...</a></p>
-          </article>
-        </div>
-        <hr color="#ddd">
-        <br>
-      </li>
+      <div class="post">
+        <header class="post-title">
+            <a href="{{ post.url }}" >{{ post.title }}</a>
+        </header>
+        <article>
+          <p class="meta">{{ post.date | date: "%b %-d, %Y" }}{% if post.author %} • {{ post.author }}{% endif %}{% if post.meta %} • {{ post.meta }}{% endif %}</p>
+          {{ post.excerpt }}
+          <p><a href="{{ post.url }}">continue reading...</a></p>
+        </article>
+      </div>
+      <br>
     {% endfor %}
-  </ul>
 
   <h2>Previously...</h2>
 
@@ -35,5 +26,3 @@ layout: default
       </li>
     {% endfor %}
   </ul>
-
-</div>

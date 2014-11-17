@@ -5,17 +5,34 @@
 
     <body>
 
-    {% include header.html %}
+		  <div class='container'>
+				<div class='row'>
+			    <div id='info' class='col-md-2 col-xs-12'>
+				  	<a href="/"><h1>dan pittman</h1></a>
+			    	<div id='page-descrip'>
+              {{ site.description }}
+			    	</div>
+				  	<div id='social'>
+				  	  <a href="https://github.com/danielscottt"><i class="fa fa-github"></i></a>
+				  	  <a href="https://twitter.com/danielscottt"><i class="fa fa-twitter"></i></a>
+				  	  <a href="/feed.xml"><i class="fa fa-rss"></i></a>
+				  	</div>
+	  	    </div>
+			    <div class='col-md-10 col-xs-12' id='posts'>
+            {{ content }}
+			    </div>
+				</div>
+				<div class='row'>
+  				<div id='footer' class='col-md-10 col-md-offset-2 col-xs-12'>
+						<hr>
+						<i class='fa fa-copyright'></i> dan pittman<br>
+						<i class='fa fa-envlope-o'></i> danielscottt at gmail dot com
+  					<p>These opinions and ideas are mine, and I reserve the right to be wrong.</p>
+  				</div>
+				</div>
+			</div>
 
-    <div class="page-content">
-      <div class="wrap">
-      {{ content }}
-      </div>
-    </div>
-
-    {% include footer.html %}
-
-    </body>
+		</body>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
