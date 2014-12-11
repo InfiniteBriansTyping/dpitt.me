@@ -13,9 +13,10 @@
               {{ site.description }}
 			    	</div>
 				  	<div id='social'>
-				  	  <a href="https://github.com/danielscottt"><i class="fa fa-github"></i></a>
-				  	  <a href="https://twitter.com/danielscottt"><i class="fa fa-twitter"></i></a>
-				  	  <a href="/feed.xml"><i class="fa fa-rss"></i></a>
+							<a href="/dailies" data-toggle="tooltip" title="Dailies" data-placement="bottom"><i class="fa fa-calendar"></i></a>
+				  	  <a href="https://github.com/danielscottt" data-toggle="tooltip" title="Github" data-placement="bottom"><i class="fa fa-github"></i></a>
+				  	  <a href="https://twitter.com/danielscottt" data-toggle="tooltip" title="Twitter" data-placement="bottom"><i class="fa fa-twitter"></i></a>
+				  	  <a href="/feed.xml" data-toggle="tooltip" title="RSS" data-placement="bottom"><i class="fa fa-rss"></i></a>
 				  	</div>
 	  	    </div>
 			    <div class='col-md-10 col-xs-12' id='posts'>
@@ -33,6 +34,11 @@
 			</div>
 
 		</body>
+		<script>
+			$(function () {
+				  $('[data-toggle="tooltip"]').tooltip()
+			})
+		</script>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
