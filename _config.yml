@@ -7,10 +7,6 @@ description: a guy who programs. sometimes.
 baseurl: ''
 url: "http://dpitt.me"
 
-collections:
-  dailies:
-    output: true
-
 # Build settings
 markdown: kramdown
 permalink: pretty
