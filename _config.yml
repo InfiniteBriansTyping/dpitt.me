@@ -6,6 +6,7 @@ email: danielscottt@gmail.com
 description: a guy who programs. sometimes.
 baseurl: ''
 url: "http://dpitt.me"
+highlighter: pygments
 
 # Build settings
 markdown: kramdown
