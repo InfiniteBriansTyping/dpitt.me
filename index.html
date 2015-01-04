@@ -3,7 +3,7 @@ layout: default
 ---
 
 
-    {% for post in site.posts limit:1 %}
+    {% for post in site.posts limit:2 %}
       <div class="post">
         <header class="post-title">
             <a href="{{ post.url }}" >{{ post.title }}</a>
@@ -20,7 +20,7 @@ layout: default
   <h2>Previously...</h2>
 
   <ul class='posts'>
-    {% for post in site.posts offset:1 %}
+    {% for post in site.posts offset:2 %}
       <li>
         {{ post.date | date: "%b %-d, %Y" }}: <a href="{{ post.url }}" >{{ post.title }}</a>
       </li>
