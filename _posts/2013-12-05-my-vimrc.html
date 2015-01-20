@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>my .vimrc</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="a guy who programs. sometimes.">
+    <link rel="canonical" href="http://dpitt.me/2013/12/05/my-vimrc/">
+
+    <!-- Fonts -->
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400' rel='stylesheet' type='text/css'>
+
+    <!-- CSS -->
+		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+
+</head>
+
+
+    <body>
+
+		  <div class='container'>
+				<div class='row'>
+			    <div id='info' class='col-md-2 col-xs-12'>
+				  	<a href="/"><h1>dan pittman</h1></a>
+			    	<div id='page-descrip'>
+              a guy who programs. sometimes.
+			    	</div>
+				  	<div id='social'>
+				  	  <a href="https://github.com/danielscottt"><i class="fa fa-github"></i></a>
+				  	  <a href="https://twitter.com/danielscottt"><i class="fa fa-twitter"></i></a>
+				  	  <a href="/feed.xml"><i class="fa fa-rss"></i></a>
+				  	</div>
+	  	    </div>
+			    <div class='col-md-10 col-xs-12' id='posts'>
+            <div class="post">
+
+  <header class="post-title">
+    my .vimrc
+  </header>
+  <p class="meta">Dec 5, 2013</p>
+
+  <article class="post-content">
+  <p>Here’s my [current] <code>~/.vimrc</code> file:</p>
+
+<div class="highlight"><pre><code class="vim"><span class="k">set</span> <span class="nb">rtp</span><span class="p">+=~</span><span class="sr">/.vim/</span>bundle<span class="sr">/vundle/</span>
+<span class="k">call</span> vundle#rc<span class="p">()</span>
+
+Bundle <span class="s1">&#39;Gist.vim&#39;</span>
+Bundle <span class="s1">&#39;altercation/vim-colors-solarized&#39;</span>
+Bundle <span class="s1">&#39;mattn/webapi-vim&#39;</span>
+Bundle <span class="s1">&#39;tpope/vim-surround&#39;</span>
+Bundle <span class="s1">&#39;kien/ctrlp.vim&#39;</span>
+Bundle <span class="s1">&#39;godlygeek/tabular&#39;</span>
+Bundle <span class="s1">&#39;tpope/vim-markdown&#39;</span>
+Bundle <span class="s1">&#39;fxn/vim-monochrome&#39;</span>
+Bundle <span class="s1">&#39;VMop/zed.vim&#39;</span>
+
+<span class="nb">syntax</span> <span class="k">on</span>
+<span class="k">set</span> <span class="k">number</span>
+
+<span class="c">&quot;so I can still use shift+arrows</span>
+map C <span class="p">&lt;</span>Right<span class="p">&gt;</span>
+map D <span class="p">&lt;</span>Left<span class="p">&gt;</span>
+map   <span class="p">&lt;</span>S<span class="p">-</span>Right<span class="p">&gt;</span>
+map <span class="p">&lt;</span>S<span class="p">-</span>Left<span class="p">&gt;</span>
+map B <span class="p">&lt;</span>Down<span class="p">&gt;</span>
+map  <span class="p">&lt;</span>S<span class="p">-</span>Up<span class="p">&gt;</span>
+map
+     <span class="p">&lt;</span>S<span class="p">-</span>Down<span class="p">&gt;</span>
+
+<span class="k">set</span> <span class="nb">background</span><span class="p">=</span><span class="nb">dark</span>
+<span class="k">colorscheme</span> solarized
+
+<span class="c">&quot;use *.md for markdown</span>
+<span class="k">au</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> *.md <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span>markdown
+
+<span class="c">&quot;ruby filetypes</span>
+<span class="k">au</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> Gemfile <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span><span class="k">ruby</span>
+<span class="k">au</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> config.<span class="k">ru</span> <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span><span class="k">ruby</span>
+<span class="k">au</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> Vagrantfile <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span><span class="k">ruby</span>
+<span class="k">au</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> Puppetfile <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span><span class="k">ruby</span>
+
+<span class="c">&quot;display trailing whitespace</span>
+<span class="k">set</span> <span class="nb">listchars</span><span class="p">=</span>trail:.
+<span class="k">set</span> <span class="nb">list</span></code></pre></div>
+
+<p>Start simply:</p>
+
+<div class="highlight"><pre><code class="bash">git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle</code></pre></div>
+
+<p>Add the two vundle lines to your <code>~/.vimrc</code> file:</p>
+
+<div class="highlight"><pre><code class="vim"><span class="k">set</span> <span class="nb">rtp</span><span class="p">+=~</span><span class="sr">/.vim/</span>bundle<span class="sr">/vundle/</span>
+<span class="k">call</span> vundle#rc<span class="p">()</span></code></pre></div>
+
+<p>Then the “bundles” are as easy as running <code>:BundleInstall</code> from the Vim command prompt.</p>
+
+<p>What are these plugins?</p>
+
+<h4 id="gistvimhttpsgithubcommattngist-vim"><a href="https://github.com/mattn/gist-vim">Gist.vim</a></h4>
+
+<p>Add Gists from Vim, selections, full file, private, etc.  Includes editing an existing Gist (<a href="https://github.com/mattn/webapi-vim">webapi-vim</a> is a dependency for Gist.vim).</p>
+
+<h4 id="vim-surroundhttpsgithubcomtpopevim-surround"><a href="https://github.com/tpope/vim-surround">vim-surround</a></h4>
+
+<p>Replace surrounding delimiters, i.e. turn <code>"hello, world"</code>, into <code>'hello, world'</code>.  This one is a <em>little</em> complicated, it uses commands, not the command <em>prompt</em>, and there are <strong>a lot</strong> of options.  Check out the readme at the above link.</p>
+
+<h4 id="ctrl-phttpsgithubcomkienctrlpvim"><a href="https://github.com/kien/ctrlp.vim">ctrl-p</a></h4>
+
+<p>This is a fuzzy and MRU (most recently used) search tool for Vim.  Press ctrl+p to start searching, highlight a file, then press ctrl+t to open the file in a new tab, for example.</p>
+
+<h4 id="tabularhttpsgithubcomgodlygeektabular"><a href="https://github.com/godlygeek/tabular">Tabular</a></h4>
+
+<p>This one aligns things like Ruby really wants you to:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="p">{</span>
+  <span class="ss">:these</span> <span class="o">=&gt;</span> <span class="s1">&#39;things&#39;</span><span class="p">,</span>
+  <span class="ss">:things</span> <span class="o">=&gt;</span> <span class="s1">&#39;are&#39;</span><span class="p">,</span>
+  <span class="ss">:not</span> <span class="o">=&gt;</span> <span class="s1">&#39;aligned&#39;</span>
+<span class="p">}</span></code></pre></div>
+
+<p><code>:Tab /=&gt;</code> yields the expected result:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="p">{</span>
+  <span class="ss">:these</span>  <span class="o">=&gt;</span> <span class="s1">&#39;things&#39;</span><span class="p">,</span>
+  <span class="ss">:things</span> <span class="o">=&gt;</span> <span class="s1">&#39;are&#39;</span><span class="p">,</span>
+  <span class="ss">:not</span>    <span class="o">=&gt;</span> <span class="s1">&#39;aligned&#39;</span>
+<span class="p">}</span></code></pre></div>
+
+
+  </article>
+
+</div>
+
+			    </div>
+				</div>
+				<div class='row'>
+  				<div id='footer' class='col-md-10 col-md-offset-2 col-xs-12'>
+						<hr>
+						<i class='fa fa-copyright'></i> dan pittman<br>
+						<i class='fa fa-envlope-o'></i> danielscottt at gmail dot com
+  					<p>These opinions and ideas are mine, and I reserve the right to be wrong.</p>
+  				</div>
+				</div>
+			</div>
+
+		</body>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-37369627-3', 'dpitt.me');
+      ga('send', 'pageview');
+    </script>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Paper: Coordination-Avoiding Database Systems</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="a guy who programs. sometimes.">
+    <link rel="canonical" href="http://dpitt.me/distributed-systems/2014/05/03/coordination-avoidance-systems/">
+
+    <!-- Fonts -->
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400' rel='stylesheet' type='text/css'>
+
+    <!-- CSS -->
+		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+
+</head>
+
+
+    <body>
+
+		  <div class='container'>
+				<div class='row'>
+			    <div id='info' class='col-md-2 col-xs-12'>
+				  	<a href="/"><h1>dan pittman</h1></a>
+			    	<div id='page-descrip'>
+              a guy who programs. sometimes.
+			    	</div>
+				  	<div id='social'>
+				  	  <a href="https://github.com/danielscottt"><i class="fa fa-github"></i></a>
+				  	  <a href="https://twitter.com/danielscottt"><i class="fa fa-twitter"></i></a>
+				  	  <a href="/feed.xml"><i class="fa fa-rss"></i></a>
+				  	</div>
+	  	    </div>
+			    <div class='col-md-10 col-xs-12' id='posts'>
+            <div class="post">
+
+  <header class="post-title">
+    Paper: Coordination-Avoiding Database Systems
+  </header>
+  <p class="meta">May 3, 2014</p>
+
+  <article class="post-content">
+  <p>Classic “strong consistency” systems, ACID-based transactional databases and the like, use transaction isolation to ensure some form of correctness.  Isolation in this context simply means no updates happen concurrently, each transaction is isolated by a locking mechanism, and these transactions are coordinated to all replicas synchronously.  Obviously, these synchronous transactions seriously limit scalability.  From this problem arose <em>NoSQL</em> systems like Cassandra, Riak, Dynamo, etc.  These systems allow any number of concurrent updates, allow those updates to be sent to any node, and asynchronously replicate these updates (or their datasets) to their neighbors.  This is the basis of <em>eventual consistency</em>.  As a result of these non-isolated, asynchronous updates, determining <em>correctness</em> is very difficult.  There are many attempts to “force” some type of correctness with merge operations, or something much harsher like LWW - Last Write Wins.  Other <em>correctness</em> sumation attempts include determining causality with a vector clock, or using data types that are commutative or monotonic.  Although quite similar, these last two properties, commutativity and monotonicity, are not exactly the same thing.  A simple way to think of each is with a counters example:</p>
+
+<blockquote>
+  <p>Consider an application that, rather than querying for all users, then counting the results, it uses a counter for a quick, and single-row read to surmise the current number of Users.  Each time a new User is saved, a counter is updated with a +1.</p>
+</blockquote>
+
+<p>If a User is never deleted, and the counter only increases, then the counter is monotonic.  Monotonicity can be described as a function which never changes direction.  The counter only goes up in value.</p>
+
+<blockquote>
+  <p>Now consider that in our application, we <em>can</em> delete users, so the counter can go up or down.  Each time a user is added: +1, and deleted: -1.  This results in a series of updates that look like this: </p>
+</blockquote>
+
+<blockquote>
+  <p>2 Users are added, 1 is deleted, then 2 more are added, resulting a total of 3 Users. No matter what order these updates are received in, the result is <em>always</em> 3:</p>
+</blockquote>
+
+<blockquote>
+  <p>0+1+1-1+1+1 = 3</p>
+</blockquote>
+
+<blockquote>
+  <p>0-1+1+1+1+1 = 3</p>
+</blockquote>
+
+<blockquote>
+  <p>0+1+1+1+1-1 = 3</p>
+</blockquote>
+
+<blockquote>
+  <p>etc…</p>
+</blockquote>
+
+<p>These counters <em>commute</em>, because no matter what order the updates are received in, the final result is always the same.</p>
+
+<h4 id="invariant-confluence"><strong><em>Invariant Confluence</em></strong></h4>
+
+<p>This paper introduces a new approach to strong consistency while avoiding coordination using something the researchers call invariant confluence.  Invariant Confluence implements this avoidance by predetermining a constraint to the schema.  That is, coordination is not needed if all asynchronous transactions merge into a state that is valid against this constraint.  Lets go back to our application’s users for an example.  As Users are added and removed to our system, we can safely say there should never be a negative amount of users.  We can never have less than we started with: 0.  So, using <em>Invariant Confluence</em> we can say <code>Users.count</code> should never be &lt; 0.  Using this constraint on the schema, we can then allow our transactions to occur coordination-free, and test their resultant state if merged.  If they do not violate our constraint, they can merge into a valid state; if not we must forego the coordination avoidance, or the correctness of the final state.  </p>
+
+<p>This technique can be used to surmise the scenarios in which coordination is necessary, and allows the the avoidance in all other transaction merges.  This contributes to a much more scalable, strongly-consistent system, which sacrifices much less availability.</p>
+
+<p>This paper was written by a group from Berkley and the University of Sydney, and you can find it here: <a href="http://arxiv.org/abs/1402.2237">Coordination-Avoiding Database Systems</a>.</p>
+
+  </article>
+
+</div>
+
+			    </div>
+				</div>
+				<div class='row'>
+  				<div id='footer' class='col-md-10 col-md-offset-2 col-xs-12'>
+						<hr>
+						<i class='fa fa-copyright'></i> dan pittman<br>
+						<i class='fa fa-envlope-o'></i> danielscottt at gmail dot com
+  					<p>These opinions and ideas are mine, and I reserve the right to be wrong.</p>
+  				</div>
+				</div>
+			</div>
+
+		</body>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-37369627-3', 'dpitt.me');
+      ga('send', 'pageview');
+    </script>
+
+</html>

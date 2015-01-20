@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Paper: Generalized Scale Independence Through Incremental Precomputation</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="a guy who programs. sometimes.">
+    <link rel="canonical" href="http://dpitt.me/distributed-systems/2014/05/05/generalized-scaled-independence/">
+
+    <!-- Fonts -->
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400' rel='stylesheet' type='text/css'>
+
+    <!-- CSS -->
+		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+
+</head>
+
+
+    <body>
+
+		  <div class='container'>
+				<div class='row'>
+			    <div id='info' class='col-md-2 col-xs-12'>
+				  	<a href="/"><h1>dan pittman</h1></a>
+			    	<div id='page-descrip'>
+              a guy who programs. sometimes.
+			    	</div>
+				  	<div id='social'>
+				  	  <a href="https://github.com/danielscottt"><i class="fa fa-github"></i></a>
+				  	  <a href="https://twitter.com/danielscottt"><i class="fa fa-twitter"></i></a>
+				  	  <a href="/feed.xml"><i class="fa fa-rss"></i></a>
+				  	</div>
+	  	    </div>
+			    <div class='col-md-10 col-xs-12' id='posts'>
+            <div class="post">
+
+  <header class="post-title">
+    Paper: Generalized Scale Independence Through Incremental Precomputation
+  </header>
+  <p class="meta">May 5, 2014</p>
+
+  <article class="post-content">
+  <p><em>As data sizes grow, even by orders of magnitude, a scale-independent system enforces strict invariants on the cost of query execution.</em></p>
+
+<p>The authors of this paper also <a href="http://arxiv.org/abs/1111.7166">wrote a paper on PIQL</a>, which I have not read, that “<em>…enforces strict invariants on the cost of query execution</em>” to protect against bottlenecks in large systems.  They called this approach to data independence <em>scale independence</em>.  <em>Generalized Scale Independence Through Incremental Precomputation</em> introduces a second mechanism to their model for scale independence, where pre-computation is used at write time, to save from “<em>…reading unbounded amounts of data</em>”.</p>
+
+<p>My first thought as I made it through the beginning of this paper was prepared queries, or something like the precomputation of all possible cartesians of a finite dataset.  To partly borrow an example from the paper:</p>
+
+<blockquote>
+  <p>A database that contains documents, and these documents are tagged.  There are tables like so: <code>tags(doc_id, tag, timestamp)</code> and <code>docs(doc_id, text)</code>.  A query to get the five newest docs which had tag-a and tab-b could be precomputed by storing all possible arrangements of two tags, then storing those in the order of their timestamp.  </p>
+</blockquote>
+
+<p>This, apparently, is called <em>intersection precomputation</em>, and is a very common practice.  I had a brief moment of clarity while rescanning the paper looking for a clear comparison of <em>intersection</em> precomputation, and the <em>scale independence</em> precomputation that the paper is centered around.  It is not the preparing of known queries to prevent heavy computation on complex reads, but rather a precomputation to <em>decouple</em> the size of the query workload from the size of the overall dataset.  The former does significantly reduce average response time for complex queries, but it does not however, produce a predictable response time as the dataset grows exponentially.  The latter creates cartesians similar to intersection precomputation, but in this case these cartesians represent an entire view.  In PIQL, the qualification of these views are determined by detecting hotspots, and in these hotspots, finding violators of the aforementioned invariants.  The formulas for these invariants are especially dense, and I’m not going to begin to attempt to wrap my head around them; the cool thing here is, though, the idea of representing a complete view in a single, scale independent read.  </p>
+
+<p>If we look at our previous example of docs and tags, consider that the service has now grown to millions of documents and tags. The previous intersection precomputation of tag cartesians is unbounded, and now quite massive.  The wins of this precomputation are all but lost. However, if it is known through the detection of hotspots that the previous query is very common, we can begin to incrementally maintain a complete view of the 5 most recent docs with tag-a and tag-b.  This query does not grow as the dataset grows, as the majority of its data is static.  We can incrementally maintain dozens, or even hundreds of these complete views at write time, most likely asynchronously.  All of these views are independent of the overall dataset size.  This may cause a considerably higher workload for writes, but it will radically decrease response time for reads.  This tradeoff is favorable to any read-heavy service, such as most of the large social media sites like Facebook or Twitter.</p>
+
+<p>This paper was written by Michael Armbrust, Armando Fox, Eric Liang, Michael J. Franklin, Tim Kraska, and David A. Patterson.  You can find it here: <a href="https://amplab.cs.berkeley.edu/publication/generalized-scale-independence-through-incremental-precomputation/">Generalized Scale Independence Through Incremental Precomputation</a></p>
+
+<h3 id="update">Update:</h3>
+
+<p>I was excited about the wrong thing, and <a href="https://twitter.com/danielscottt/status/463522240307277824">skipped the most important part of the whole paper</a>.</p>
+
+  </article>
+
+</div>
+
+			    </div>
+				</div>
+				<div class='row'>
+  				<div id='footer' class='col-md-10 col-md-offset-2 col-xs-12'>
+						<hr>
+						<i class='fa fa-copyright'></i> dan pittman<br>
+						<i class='fa fa-envlope-o'></i> danielscottt at gmail dot com
+  					<p>These opinions and ideas are mine, and I reserve the right to be wrong.</p>
+  				</div>
+				</div>
+			</div>
+
+		</body>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-37369627-3', 'dpitt.me');
+      ga('send', 'pageview');
+    </script>
+
+</html>
