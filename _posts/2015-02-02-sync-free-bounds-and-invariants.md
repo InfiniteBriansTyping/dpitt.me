@@ -20,7 +20,7 @@ As a background process, the "Reservation Manager" above doles out reservations,
 
 ### Here comes some math
 
-Mathmetically, CRDTs are all about a join semilattice, and so I'm about to attempt to surmise what the lattice is in the context of a bounded CRDT.
+Mathematically, CRDTs are all about a join semilattice, and so I'm about to attempt to surmise what the lattice is in the context of a bounded CRDT.
 
 Reservations is a semilattice _`(R,∨)`_. The current operation, if operations are _`O⊆R`_ is _`R ∨ O`_.  That is, the Least Upper Bound of _`R`_ is the current Operation Count.  This meets semilattice requirements of [commutativity, associativity, and idempotency](http://en.wikipedia.org/wiki/Semilattice#Algebraic_definition) in that with each operation _`⊤O`_ will always be equal to some element in _`R`_ so long as _`R`_ remains unbounded. Therefore  _`R v O`_ holds for any _`O⊆R`_.  Like I said, if you are clever enough you can keep your Reservation Manager far enough ahead.
 
